@@ -4,7 +4,21 @@
 
 int main()
 {
-	Graph graph;
+	//Graph graph;
+
+	std::vector<std::vector<int>> adjacency_matrix = {
+		{0, 5, 9, 2, 0, 0, 0, 0},
+		{0, 0, 3, 0, 4, 0, 0, 0},
+		{9, 0, 0, 0, 0, 0, 0, 0},
+		{2, 0, 0, 0, 0, 0, 0, 0},
+		{0, 4, 0, 9, 0, 7, 0, 1},
+		{0, 0, 4, 0, 7, 0, 6, 0},
+		{0, 0, 0, 0, 0, 6, 0, 0},
+		{0, 0, 0, 0, 1, 0, 0, 0},
+	};
+
+
+	Graph graph(adjacency_matrix);
 
 	return 0;
 }
