@@ -28,8 +28,13 @@ Graph::Graph()
     for (size_t i = 0; i < nEdges; i++)
     {
         size_t iNode1 = d_nodes(random_generator);
-        size_t iNode2 = d_nodes(random_generator);
-        int weight = d_weights(random_generator);
+        size_t iNode2;
+        do
+        {
+            iNode2 = d_nodes(random_generator);
+        } while (iNode1 == iNode2);
+        
+        unsigned int weight = d_weights(random_generator);
 
         edges.push_back({ iNode1 , iNode2, weight });
         if(edge_or_arc(random_generator))
@@ -40,7 +45,7 @@ Graph::Graph()
 }
 
 
-Graph::Graph(const std::vector<std::vector<int>> adjacency_matrix)
+Graph::Graph(const std::vector<std::vector<unsigned int>> adjacency_matrix)
 {
     for (size_t i = 0; i < adjacency_matrix.size(); i++)
     {

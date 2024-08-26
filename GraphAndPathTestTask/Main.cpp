@@ -1,13 +1,18 @@
 ﻿#include <iostream>
 #include "Graph.h"
+#include "FindPath.h"
 #include "Test.h"
 
 
 int main()
 {
-	//Graph graph;
-	test();
+	Graph graph;
+	auto path = FindPath(graph, 0, graph.GetNodesSize() - 1);
+
+	//test();
 	
+	std::cout << "Path length = " << path.size() << '\n';
+
 	return 0;
 }
 
