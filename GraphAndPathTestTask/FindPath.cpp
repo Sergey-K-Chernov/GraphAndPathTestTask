@@ -63,7 +63,7 @@ public:
 		by_distance.erase(by_distance.begin());
 		by_id.erase(to_pop);
 
-		std::cout << by_id.size() << '\n';
+		// std::cout << by_id.size() << '\n';
 		// Из массива не удаляется by design;
 	}
 

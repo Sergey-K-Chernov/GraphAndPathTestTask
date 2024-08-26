@@ -4,15 +4,24 @@
 #include "Test.h"
 
 
+void PrintPath(std::vector<size_t> path)
+{
+	std::cout << "Path length = " << path.size() << ":\n";
+	for (auto id : path)
+	{
+		std::cout << id << " ";
+	}
+	std::cout << '\n';
+}
+
+
 int main()
 {
 	Graph graph;
 	auto path = FindPath(graph, 0, graph.GetNodesSize() - 1);
+	PrintPath(path);
 
 	//test();
-	
-	std::cout << "Path length = " << path.size() << '\n';
-
 	return 0;
 }
 
