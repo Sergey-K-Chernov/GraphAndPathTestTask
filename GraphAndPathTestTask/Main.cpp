@@ -1,6 +1,7 @@
 ﻿#include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <chrono>
 #include "Graph.h"
 #include "AlternativeGraph.h"
 #include "FindPath.h"
@@ -65,7 +66,7 @@ int main()
 #ifdef TEST
 	test();
 #else
-	for (int i=0; i<1000; i++)
+	//for (int i=0; i<1000; i++)
 	{
 		Graph graph;
 		auto path = FindPath(graph, 0, graph.GetNodesSize() - 1);
@@ -83,6 +84,27 @@ int main()
 			path = FindPath(graph, 0, graph.GetNodesSize() - 1);
 			GraphAdj alt_graph2(graph);
 		}
+
+		auto start = std::chrono::high_resolution_clock::now();
+		for (int i=0; i< 100000; i++)
+		{
+			FindPath(graph, 0, graph.GetNodesSize() - 1);
+		}
+		auto end = std::chrono::high_resolution_clock::now();
+		std::chrono::duration<double> elapsed{ end - start };
+
+		std::cout << "\nMy: " << elapsed.count() << '\n';
+
+		start = std::chrono::high_resolution_clock::now();
+		for (int i = 0; i < 100000; i++)
+		{
+			alt_graph.dijkstra(0, MIN_NODES - 1);
+		}
+		end = std::chrono::high_resolution_clock::now();
+		elapsed = { end - start };
+
+		std::cout << "\nWiki: " << elapsed.count() << '\n';
+
 	}
 #endif
 	
