@@ -1,12 +1,15 @@
 ﻿#include <iostream>
+#include <fstream>
+#include <iomanip>
 #include "Graph.h"
+#include "AlternativeGraph.h"
 #include "FindPath.h"
 #include "Test.h"
 
-
-void PrintPath(std::vector<size_t> path)
+template <typename T, typename G>
+static void PrintPath(T path, G graph)
 {
-	std::cout << "Path length = " << path.size() << ":\n";
+	std::cout << "Path length = " << path.size() << ", path distance = " << graph.GetDistance(path) << ":\n";
 	for (auto id : path)
 	{
 		std::cout << id << " ";
@@ -15,13 +18,74 @@ void PrintPath(std::vector<size_t> path)
 }
 
 
+void PrintGraph(const Graph& g)
+{
+	std::ofstream f("Graph.txt");
+
+	std::vector<std::vector<unsigned int>> am;
+	
+	am.resize(g.GetNodesSize());
+	for (auto& row : am)
+	{
+		row.resize(g.GetNodesSize(), 0);
+	}
+
+	for (auto& e : g.GetEdges())
+	{
+		am[e.iFrom][e.iTo] = e.weight;
+	}
+
+	size_t iRow = 0;
+
+	f << ' ';
+	for (size_t i = 0; i < g.GetNodesSize(); i++)
+	{
+		f << std::setfill(' ') << std::setw(3) << i << ' ';
+	}
+	f << '\n';
+
+	for (auto& row : am)
+	{
+		f << "{";
+		for (auto w : row)
+		{
+			f << "  " << w << ',';
+		}
+		f << "}, // " << iRow++ << '\n';
+	}
+	f << '\n';
+}
+
+/*
+#define TEST
+//*/
+
 int main()
 {
-	Graph graph;
-	auto path = FindPath(graph, 0, graph.GetNodesSize() - 1);
-	PrintPath(path);
+#ifdef TEST
+	test();
+#else
+	for (int i=0; i<1000; i++)
+	{
+		Graph graph;
+		auto path = FindPath(graph, 0, graph.GetNodesSize() - 1);
+		PrintPath(path, graph);
 
-	//test();
+		GraphAdj alt_graph(graph);
+		auto path2 = alt_graph.dijkstra(0, MIN_NODES - 1);
+		PrintPath(path2, alt_graph);
+
+		PrintGraph(graph);
+		alt_graph.print();
+
+		if (path.size() != path2.size())
+		{
+			path = FindPath(graph, 0, graph.GetNodesSize() - 1);
+			GraphAdj alt_graph2(graph);
+		}
+	}
+#endif
+	
 	return 0;
 }
 

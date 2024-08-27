@@ -74,7 +74,7 @@ public:
 	
 	bool unvisited_empty() const
 	{
-		return by_id.empty();
+		return by_id.empty() || (*(by_distance.begin()))->distance == UINT_MAX;
 	}
 
 	void set_prev(size_t id, size_t iPrev)
@@ -105,6 +105,10 @@ std::vector<size_t> FindPath(const Graph& graph, const size_t iFrom, const size_
 {
 	std::vector<size_t> path;
 	
+	if (graph.GetNode(iFrom).iEdges.empty())
+		return path;
+
+
 	HelperSet helper(graph);
 	helper.set_distance(iFrom, 0);
 
@@ -115,7 +119,7 @@ std::vector<size_t> FindPath(const Graph& graph, const size_t iFrom, const size_
 			break;
 		helper.unvisited_pop();
 
-		auto& iEdges = graph.GetNode(current->id).edges;
+		auto& iEdges = graph.GetNode(current->id).iEdges;
 		for (auto& iEdge : iEdges)
 		{
 			auto& edge = graph.GetEdge(iEdge);

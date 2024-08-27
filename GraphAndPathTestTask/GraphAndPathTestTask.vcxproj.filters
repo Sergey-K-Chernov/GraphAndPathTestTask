@@ -27,6 +27,9 @@
     <ClCompile Include="FindPath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AlternativeGraph.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graph.h">
@@ -36,6 +39,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FindPath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AlternativeGraph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

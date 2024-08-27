@@ -2,9 +2,6 @@
 
 #include <random>
 
-const size_t MIN_NODES = 100;
-const size_t MIN_EDGES = 230;
-const size_t MAX_WEIGHT = 10;
 
 Graph::Graph()
 {
@@ -18,7 +15,7 @@ Graph::Graph()
     size_t nEdges = MIN_EDGES;// +edges_qty_d230(random_generator);
 
     std::uniform_int_distribution<> d_nodes(0, static_cast<int>(nNodes - 1));
-    std::uniform_int_distribution<> d_weights(0, MAX_WEIGHT);
+    std::uniform_int_distribution<> d_weights(1, MAX_WEIGHT);
 
     for (size_t i = 0; i < nNodes; i++)
     {
@@ -27,21 +24,45 @@ Graph::Graph()
 
     for (size_t i = 0; i < nEdges; i++)
     {
+        bool arc = edge_or_arc(random_generator);
+
         size_t iNode1 = d_nodes(random_generator);
         size_t iNode2;
+        bool bad = false;
         do
         {
+            bad = false;
+
             iNode2 = d_nodes(random_generator);
-        } while (iNode1 == iNode2);
+            if (edge_exists(iNode1, iNode2))
+            {
+                bad = true;
+            }
+            if (arc && edge_exists(iNode2, iNode1))
+            {
+                bad = true;
+            }
+            if (iNode1 == iNode2)
+            {
+                bad = true;
+            }
+        } while (bad);
         
         unsigned int weight = d_weights(random_generator);
 
         edges.push_back({ iNode1 , iNode2, weight });
-        if(edge_or_arc(random_generator))
-            edges.push_back({ iNode2 , iNode1, weight });
 
-        nodes[iNode1].edges.push_back(edges.size() - 1);
+        if (arc)
+        {
+            edges.push_back({ iNode2 , iNode1, weight });
+        }
     }
+
+    for (size_t i=0; i< edges.size(); ++i)
+    {
+        nodes[edges[i].iFrom].iEdges.push_back(i);
+    }
+    
 }
 
 
@@ -60,7 +81,18 @@ Graph::Graph(const std::vector<std::vector<unsigned int>> adjacency_matrix)
                 continue;
 
             edges.push_back({y, x, adjacency_matrix[y][x] });
-            nodes[y].edges.push_back(edges.size() - 1);
+            nodes[y].iEdges.push_back(edges.size() - 1);
         }
     }
+}
+
+
+bool Graph::edge_exists(size_t iNode1, size_t iNode2)
+{
+    for (auto e : edges)
+    {
+        if (e.iFrom == iNode1 && e.iTo == iNode2)
+            return true;
+    }
+    return false;
 }
