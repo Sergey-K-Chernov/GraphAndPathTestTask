@@ -86,7 +86,7 @@ int main()
 		}
 
 		auto start = std::chrono::high_resolution_clock::now();
-		for (int i=0; i< 100000; i++)
+		for (int i=0; i< 10000; i++)
 		{
 			FindPath(graph, 0, graph.GetNodesSize() - 1);
 		}
@@ -96,7 +96,7 @@ int main()
 		std::cout << "\nMy: " << elapsed.count() << '\n';
 
 		start = std::chrono::high_resolution_clock::now();
-		for (int i = 0; i < 100000; i++)
+		for (int i = 0; i < 10000; i++)
 		{
 			alt_graph.dijkstra(0, MIN_NODES - 1);
 		}

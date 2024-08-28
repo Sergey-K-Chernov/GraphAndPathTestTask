@@ -89,7 +89,7 @@ Graph::Graph(const std::vector<std::vector<unsigned int>> adjacency_matrix)
 
 bool Graph::edge_exists(size_t iNode1, size_t iNode2)
 {
-    for (auto e : edges)
+    for (auto& e : edges)
     {
         if (e.iFrom == iNode1 && e.iTo == iNode2)
             return true;

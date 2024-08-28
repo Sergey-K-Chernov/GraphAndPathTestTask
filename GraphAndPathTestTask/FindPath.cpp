@@ -10,7 +10,7 @@ struct NodeHelper{
 	size_t id = UINT_MAX;
 	unsigned int distance = UINT_MAX;
 	size_t iPrev = UINT_MAX;
-	//bool visited;
+	bool visited = false;
 };
 
 struct LessByDistance
@@ -39,11 +39,12 @@ public:
 	{
 		auto& nodes = graph.GetNodes();
 		node_helpers = std::unique_ptr<NodeHelper[]>(new NodeHelper[nodes.size()]);
-		for (size_t i=0; i<nodes.size(); ++i)
+		size = nodes.size();
+		for (size_t i=0; i< size; ++i)
 		{
 			node_helpers[i].id = i;
-			by_id.insert(&node_helpers[i]);
-			by_distance.insert(&node_helpers[i]);
+			//by_id.insert(&node_helpers[i]);
+			//by_distance.insert(&node_helpers[i]);
 		}
 	}
 
@@ -54,28 +55,51 @@ public:
 
 	bool is_visited(size_t id)
 	{
-		return by_id.find(&node_helpers[id]) == by_id.end();
+		return node_helpers[id].visited;
+		//return by_id.find(&node_helpers[id]) == by_id.end();
 	}
 
-	void unvisited_pop()
-	{
-		auto to_pop = *(by_distance.begin());
-		by_distance.erase(by_distance.begin());
-		by_id.erase(to_pop);
+	//void unvisited_pop()
+	//{
+		//node_helpers[id].visited = true;
+		//auto to_pop = *(by_distance.begin());
+		//by_distance.erase(by_distance.begin());
+		//by_id.erase(to_pop);
 
 		// std::cout << by_id.size() << '\n';
 		// Из массива не удаляется by design;
+	//}
+
+	void visit(size_t id)
+	{
+		node_helpers[id].visited = true;
 	}
 
-	NodeHelper* unvisited_top()
+	const NodeHelper* unvisited_top()
 	{
-		return *(by_distance.begin());
+		unsigned int id = UINT_MAX;
+		unsigned int min_dist = UINT_MAX;
+
+		for (size_t i = 0; i < size; i++)
+		{
+			if (!node_helpers[i].visited && node_helpers[i].distance < min_dist)
+			{
+				min_dist = node_helpers[i].distance;
+				id = i;
+			}
+		}
+
+		if (id >= size)
+			return nullptr;
+
+		return &node_helpers[id];
+		//return *(by_distance.begin());
 	}
 	
-	bool unvisited_empty() const
-	{
-		return by_id.empty() || (*(by_distance.begin()))->distance == UINT_MAX;
-	}
+	//bool unvisited_empty() const
+	//{
+		//return by_id.empty() || (*(by_distance.begin()))->distance == UINT_MAX;
+	//}
 
 	void set_prev(size_t id, size_t iPrev)
 	{
@@ -89,15 +113,16 @@ public:
 
 	void set_distance(size_t id, unsigned int distance)
 	{		
-		by_distance.erase(&node_helpers[id]);
+		//by_distance.erase(&node_helpers[id]);
 		node_helpers[id].distance = distance;
-		by_distance.insert(&node_helpers[id]);
+		//by_distance.insert(&node_helpers[id]);
 	}
 	
 private:
+	size_t size;
 	std::unique_ptr<NodeHelper[]> node_helpers;
-	std::set<NodeHelper*, LessById> by_id;
-	std::set<NodeHelper*, LessByDistance> by_distance;
+	//std::set<NodeHelper*, LessById> by_id;
+	//std::set<NodeHelper*, LessByDistance> by_distance;
 };
 
 
@@ -112,17 +137,29 @@ std::vector<size_t> FindPath(const Graph& graph, const size_t iFrom, const size_
 	HelperSet helper(graph);
 	helper.set_distance(iFrom, 0);
 
-	while (!helper.unvisited_empty())
+	//while (!helper.unvisited_empty())
+
+	for(const NodeHelper* current = helper.get(iFrom); current != nullptr; current = helper.unvisited_top())
 	{
-		const NodeHelper* current = helper.unvisited_top();
+		//const NodeHelper* current = helper.unvisited_top();
+		helper.visit(current->id);
 		if (current->id == iTo)
 			break;
-		helper.unvisited_pop();
 
 		auto& iEdges = graph.GetNode(current->id).iEdges;
 		for (auto& iEdge : iEdges)
 		{
 			auto& edge = graph.GetEdge(iEdge);
+
+			unsigned int new_distance = current->distance + edge.weight;
+
+			if (!helper.is_visited(edge.iTo) && new_distance < helper.get_distance(edge.iTo))
+			{
+				helper.set_distance(edge.iTo, new_distance);
+				helper.set_prev(edge.iTo, current->id);
+			}
+
+			/*
 			if (helper.is_visited(edge.iTo))
 				continue;
 
@@ -132,6 +169,7 @@ std::vector<size_t> FindPath(const Graph& graph, const size_t iFrom, const size_
 				helper.set_distance(edge.iTo, new_distance);
 				helper.set_prev(edge.iTo, current->id);
 			}
+			//*/
 		}
 	}
 
