@@ -50,7 +50,7 @@ void test1()
 		{ 7, 0 },
 	};
 
-	std::vector<std::vector<size_t>> real_answers = {
+	std::vector<std::deque<size_t>> real_answers = {
 		{0, 1, 2}, // 5+3=8 < 9
 		{0, 1, 4},
 		{0, 1, 4, 5, 6 },
@@ -67,7 +67,7 @@ void test1()
 
 	for (size_t i = 0; i < real_answers.size(); ++i)
 	{
-		std::vector<size_t> answer = FindPath(graph, problems[i].iFrom, problems[i].iTo);
+		std::deque<size_t> answer = FindPath(graph, problems[i].iFrom, problems[i].iTo);
 		assert(answer == real_answers[i]);
 
 		answer.clear();
@@ -206,9 +206,9 @@ void test2()
 
 	for (auto& problem : problems)
 	{
-		std::vector<size_t> answer1 = FindPath(graph, problem.iFrom, problem.iTo);
+		std::deque<size_t> answer1 = FindPath(graph, problem.iFrom, problem.iTo);
 
-		std::vector<size_t> answer2;
+		std::deque<size_t> answer2;
 
 		auto p = graph_adj.dijkstra(problem.iFrom, problem.iTo);
 		for (unsigned int id : p)
@@ -341,9 +341,9 @@ void test3()
 
 	for (auto& problem : problems)
 	{
-		std::vector<size_t> answer1 = FindPath(graph, problem.iFrom, problem.iTo);
+		std::deque<size_t> answer1 = FindPath(graph, problem.iFrom, problem.iTo);
 
-		std::vector<size_t> answer2;
+		std::deque<size_t> answer2;
 
 		auto p = graph_adj.dijkstra(problem.iFrom, problem.iTo);
 		for (unsigned int id : p)
@@ -477,9 +477,9 @@ void test4()
 
 	for (auto& problem : problems)
 	{
-		std::vector<size_t> answer1 = FindPath(graph, problem.iFrom, problem.iTo);
+		std::deque<size_t> answer1 = FindPath(graph, problem.iFrom, problem.iTo);
 
-		std::vector<size_t> answer2;
+		std::deque<size_t> answer2;
 
 		auto p = graph_adj.dijkstra(problem.iFrom, problem.iTo);
 		for (unsigned int id : p)

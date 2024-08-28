@@ -1,6 +1,6 @@
 #pragma once
-#include <vector>
+#include <deque>
 
 class Graph;
 
-std::vector<size_t> FindPath(const Graph& graph, const size_t iFrom, const size_t iTo);
+std::deque<size_t> FindPath(const Graph& graph, const size_t iFrom, const size_t iTo);

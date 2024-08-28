@@ -38,7 +38,7 @@ public:
 	HelperSet(const Graph& graph)
 	{
 		auto& nodes = graph.GetNodes();
-		node_helpers = std::unique_ptr<NodeHelper[]>(new NodeHelper[nodes.size()]);
+		node_helpers.resize(nodes.size());
 		size = nodes.size();
 		for (size_t i=0; i< size; ++i)
 		{
@@ -80,12 +80,12 @@ public:
 		unsigned int id = UINT_MAX;
 		unsigned int min_dist = UINT_MAX;
 
-		for (size_t i = 0; i < size; i++)
+		for (const NodeHelper& node : node_helpers)
 		{
-			if (!node_helpers[i].visited && node_helpers[i].distance < min_dist)
+			if (!node.visited && node.distance < min_dist)
 			{
-				min_dist = node_helpers[i].distance;
-				id = i;
+				min_dist = node.distance;
+				id = node.id;
 			}
 		}
 
@@ -120,15 +120,15 @@ public:
 	
 private:
 	size_t size;
-	std::unique_ptr<NodeHelper[]> node_helpers;
+	std::vector<NodeHelper> node_helpers;
 	//std::set<NodeHelper*, LessById> by_id;
 	//std::set<NodeHelper*, LessByDistance> by_distance;
 };
 
 
-std::vector<size_t> FindPath(const Graph& graph, const size_t iFrom, const size_t iTo)
+std::deque<size_t> FindPath(const Graph& graph, const size_t iFrom, const size_t iTo)
 {
-	std::vector<size_t> path;
+	std::deque<size_t> path;
 	
 	if (graph.GetNode(iFrom).iEdges.empty())
 		return path;
@@ -176,16 +176,11 @@ std::vector<size_t> FindPath(const Graph& graph, const size_t iFrom, const size_
 	auto path_node = helper.get(iTo);
 	if (path_node->distance != UINT_MAX)
 	{
-		path.push_back(path_node->id);
+		path.push_front(path_node->id);
 		do {
-			path.push_back(path_node->iPrev);
+			path.push_front(path_node->iPrev);
 			path_node = helper.get(path_node->iPrev);
 		} while (path_node->iPrev != UINT_MAX);
-	}
-
-	for (size_t i = 0, j = path.size()-1;  path.size() > 0 && i < j; ++i, --j)
-	{
-		std::swap(path[i], path[j]);
 	}
 
 	return path;
