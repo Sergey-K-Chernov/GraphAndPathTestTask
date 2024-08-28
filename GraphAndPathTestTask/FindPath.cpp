@@ -13,25 +13,6 @@ struct NodeHelper{
 	bool visited = false;
 };
 
-struct LessByDistance
-{
-	bool operator () (const NodeHelper* n1, const NodeHelper* n2) const
-	{
-		if (n1->distance == n2->distance)
-			return n1->id < n2->id;
-
-		return n1->distance < n2->distance;
-	}
-};
-
-struct LessById
-{
-	bool operator () (const NodeHelper* n1, const NodeHelper* n2) const
-	{
-		return n1->id < n2->id;
-	}
-};
-
 class HelperSet {
 public:
 	HelperSet() = delete;
