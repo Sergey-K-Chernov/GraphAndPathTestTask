@@ -66,46 +66,45 @@ int main()
 #ifdef TEST
 	test();
 #else
-	//for (int i=0; i<1000; i++)
+
+	Graph graph;
+	auto path = FindPath(graph, 0, graph.GetNodesSize() - 1);
+	PrintPath(path, graph);
+
+	GraphAdj alt_graph(graph);
+	auto path2 = alt_graph.dijkstra(0, MIN_NODES - 1);
+	PrintPath(path2, alt_graph);
+
+	PrintGraph(graph);
+	alt_graph.print();
+
+#if 0
+	if (path.size() != path2.size())
 	{
-		Graph graph;
-		auto path = FindPath(graph, 0, graph.GetNodesSize() - 1);
-		PrintPath(path, graph);
-
-		GraphAdj alt_graph(graph);
-		auto path2 = alt_graph.dijkstra(0, MIN_NODES - 1);
-		PrintPath(path2, alt_graph);
-
-		PrintGraph(graph);
-		alt_graph.print();
-
-		if (path.size() != path2.size())
-		{
-			path = FindPath(graph, 0, graph.GetNodesSize() - 1);
-			GraphAdj alt_graph2(graph);
-		}
-
-		auto start = std::chrono::high_resolution_clock::now();
-		for (int i=0; i< 10000; i++)
-		{
-			FindPath(graph, 0, graph.GetNodesSize() - 1);
-		}
-		auto end = std::chrono::high_resolution_clock::now();
-		std::chrono::duration<double> elapsed{ end - start };
-
-		std::cout << "\nMy: " << elapsed.count() << '\n';
-
-		start = std::chrono::high_resolution_clock::now();
-		for (int i = 0; i < 10000; i++)
-		{
-			alt_graph.dijkstra(0, MIN_NODES - 1);
-		}
-		end = std::chrono::high_resolution_clock::now();
-		elapsed = { end - start };
-
-		std::cout << "\nWiki: " << elapsed.count() << '\n';
-
+		path = FindPath(graph, 0, graph.GetNodesSize() - 1);
+		GraphAdj alt_graph2(graph);
 	}
+
+	auto start = std::chrono::high_resolution_clock::now();
+	for (int i=0; i< 10000; i++)
+	{
+		FindPath(graph, 0, graph.GetNodesSize() - 1);
+	}
+	auto end = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double> elapsed{ end - start };
+
+	std::cout << "\nMy: " << elapsed.count() << '\n';
+
+	start = std::chrono::high_resolution_clock::now();
+	for (int i = 0; i < 10000; i++)
+	{
+		alt_graph.dijkstra(0, MIN_NODES - 1);
+	}
+	end = std::chrono::high_resolution_clock::now();
+	elapsed = { end - start };
+
+	std::cout << "\nWiki: " << elapsed.count() << '\n';
+#endif
 #endif
 	
 	return 0;

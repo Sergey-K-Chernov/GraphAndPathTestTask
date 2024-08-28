@@ -43,8 +43,6 @@ public:
 		for (size_t i=0; i< size; ++i)
 		{
 			node_helpers[i].id = i;
-			//by_id.insert(&node_helpers[i]);
-			//by_distance.insert(&node_helpers[i]);
 		}
 	}
 
@@ -56,19 +54,7 @@ public:
 	bool is_visited(size_t id)
 	{
 		return node_helpers[id].visited;
-		//return by_id.find(&node_helpers[id]) == by_id.end();
 	}
-
-	//void unvisited_pop()
-	//{
-		//node_helpers[id].visited = true;
-		//auto to_pop = *(by_distance.begin());
-		//by_distance.erase(by_distance.begin());
-		//by_id.erase(to_pop);
-
-		// std::cout << by_id.size() << '\n';
-		// Из массива не удаляется by design;
-	//}
 
 	void visit(size_t id)
 	{
@@ -93,13 +79,7 @@ public:
 			return nullptr;
 
 		return &node_helpers[id];
-		//return *(by_distance.begin());
 	}
-	
-	//bool unvisited_empty() const
-	//{
-		//return by_id.empty() || (*(by_distance.begin()))->distance == UINT_MAX;
-	//}
 
 	void set_prev(size_t id, size_t iPrev)
 	{
@@ -113,16 +93,12 @@ public:
 
 	void set_distance(size_t id, unsigned int distance)
 	{		
-		//by_distance.erase(&node_helpers[id]);
 		node_helpers[id].distance = distance;
-		//by_distance.insert(&node_helpers[id]);
 	}
 	
 private:
 	size_t size;
 	std::vector<NodeHelper> node_helpers;
-	//std::set<NodeHelper*, LessById> by_id;
-	//std::set<NodeHelper*, LessByDistance> by_distance;
 };
 
 
@@ -133,15 +109,11 @@ std::deque<size_t> FindPath(const Graph& graph, const size_t iFrom, const size_t
 	if (graph.GetNode(iFrom).iEdges.empty())
 		return path;
 
-
 	HelperSet helper(graph);
 	helper.set_distance(iFrom, 0);
 
-	//while (!helper.unvisited_empty())
-
 	for(const NodeHelper* current = helper.get(iFrom); current != nullptr; current = helper.unvisited_top())
 	{
-		//const NodeHelper* current = helper.unvisited_top();
 		helper.visit(current->id);
 		if (current->id == iTo)
 			break;
@@ -158,18 +130,6 @@ std::deque<size_t> FindPath(const Graph& graph, const size_t iFrom, const size_t
 				helper.set_distance(edge.iTo, new_distance);
 				helper.set_prev(edge.iTo, current->id);
 			}
-
-			/*
-			if (helper.is_visited(edge.iTo))
-				continue;
-
-			unsigned int new_distance = current->distance + edge.weight;
-			if (new_distance < helper.get_distance(edge.iTo))
-			{
-				helper.set_distance(edge.iTo, new_distance);
-				helper.set_prev(edge.iTo, current->id);
-			}
-			//*/
 		}
 	}
 
