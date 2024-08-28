@@ -2,7 +2,7 @@
 
 void test();
 
-void test1();
-void test2();
-void test3();
-void test4();
+void testManual7x7();
+void testRandom1();
+void testRandom2();
+void testRandom3();

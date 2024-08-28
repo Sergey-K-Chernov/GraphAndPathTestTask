@@ -2,6 +2,7 @@
 #include "Graph.h"
 #include <deque>
 
+// Отладочный - из интернетов, для сравнения
 class GraphAdj
 {
 public:

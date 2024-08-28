@@ -14,6 +14,7 @@ struct Node
 
 typedef std::vector<Node> Nodes;
 
+
 struct Edge
 {
 	size_t iFrom;
@@ -24,7 +25,9 @@ struct Edge
 
 typedef std::vector<Edge> Edges;
 
+
 class GraphAdj;
+
 
 class Graph
 {
@@ -32,40 +35,22 @@ public:
 	Graph();
 	Graph(const std::vector<std::vector<unsigned int>> adjacency_matrix); // Для создания графа из матрицы смежности в целях отладки
 
-	size_t GetNodesSize() const
-	{
-		return nodes.size();
-	}
-	
-	const Node& GetNode(size_t id) const
-	{
-		return nodes[id];
-	}
+	size_t GetNodesSize() const;
+	const Node& GetNode(size_t id) const;
+	const Nodes& GetNodes() const;
 
-	const Nodes& GetNodes() const
-	{
-		return nodes;
-	}
+	const Edge& GetEdge(size_t id) const;
+	const Edges& GetEdges() const;
 
-	const Edge& GetEdge(size_t id) const
-	{
-		return edges[id];
-	}
-
-	const Edges& GetEdges() const
-	{
-		return edges;
-	}
-
-	template <typename T>
+	template <typename T> 
 	unsigned int GetDistance(T path)
 	{
 		auto distance = 0u;
-		for (size_t id=0; id + 1 < path.size(); ++id)
+		for (size_t id = 0; id + 1 < path.size(); ++id)
 		{
 			for (auto& edge : nodes[path[id]].iEdges)
 			{
-				if (edges[edge].iTo == path[id+1])
+				if (edges[edge].iTo == path[id + 1])
 				{
 					distance += edges[edge].weight;
 					break;
@@ -76,7 +61,7 @@ public:
 	}
 
 private:
-	bool edge_exists(size_t iNode1, size_t iNode2);
+	bool EdgeExists(size_t iNode1, size_t iNode2);
 
 private:
 	Nodes nodes;
@@ -84,3 +69,6 @@ private:
 
 	friend GraphAdj;
 };
+
+
+void PrintGraph(const Graph& g);
