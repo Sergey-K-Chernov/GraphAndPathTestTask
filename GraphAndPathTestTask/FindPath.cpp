@@ -20,8 +20,7 @@ public:
 	{
 		auto& nodes = graph.GetNodes();
 		node_helpers.resize(nodes.size());
-		size = nodes.size();
-		for (size_t i=0; i< size; ++i)
+		for (size_t i=0; i < node_helpers.size(); ++i)
 		{
 			node_helpers[i].id = i;
 		}
@@ -56,7 +55,7 @@ public:
 			}
 		}
 
-		if (id >= size)
+		if (id >= node_helpers.size())
 			return nullptr;
 
 		return &node_helpers[id];
@@ -78,7 +77,6 @@ public:
 	}
 	
 private:
-	size_t size;
 	std::vector<NodeHelper> node_helpers;
 };
 
