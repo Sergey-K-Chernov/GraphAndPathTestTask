@@ -6,7 +6,7 @@ This program has been written as a test task before a job interview.
 The task
 --------
 
-Create a mixed weighted graph. 
+Create a weighted mixed graph. 
 Implement a function to find the shortest path between nodes A and B. 
 
 ### Requirements
