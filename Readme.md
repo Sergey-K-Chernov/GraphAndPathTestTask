@@ -1,5 +1,5 @@
-Generate and process threads
-============================
+Shortest path in a graph
+========================
 
 This program has been written as a test task before a job interview.
 
