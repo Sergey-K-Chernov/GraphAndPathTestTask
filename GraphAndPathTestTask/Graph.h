@@ -33,7 +33,7 @@ class Graph
 {
 public:
 	Graph();
-	Graph(const std::vector<std::vector<unsigned int>> adjacency_matrix); // Для создания графа из матрицы смежности в целях отладки
+	Graph(const std::vector<std::vector<unsigned int>> adjacency_matrix); // Create from adjacency matrix for debug and test
 
 	size_t GetNodesSize() const;
 	const Node& GetNode(size_t id) const;

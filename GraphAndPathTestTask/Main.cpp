@@ -31,10 +31,10 @@ int main()
 	PrintPath(path, graph);
 
 	/*
-	* Для нормального сравнения надо закомментировать рандомную этих часть строк в контсрукторе графа:
+	* Comment the random part of these lines in the Graph ctor for a correct comparison:
 	*     size_t nNodes = MIN_NODES + nodes_qty_d100(random_generator);
 	*	  size_t nEdges = MIN_EDGES + edges_qty_d230(random_generator);
-	* потому что отладочный альтернативный граф не принимает переменное число вершин.
+	* - because the debug/test graph doesn't allow variable number of nodes and edges.
 	* 
 	* 
 	GraphAdj alt_graph(graph);

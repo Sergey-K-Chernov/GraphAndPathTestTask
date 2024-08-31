@@ -13,8 +13,8 @@ Graph::Graph()
     std::uniform_int_distribution<> edges_qty_d230(0, 230);
     std::uniform_int_distribution<> edge_or_arc(0, 1);
 
-    size_t nNodes = MIN_NODES;// +nodes_qty_d100(random_generator);
-    size_t nEdges = MIN_EDGES;// +edges_qty_d230(random_generator);
+    size_t nNodes = MIN_NODES + nodes_qty_d100(random_generator);
+    size_t nEdges = MIN_EDGES + edges_qty_d230(random_generator);
 
     std::uniform_int_distribution<> d_nodes(0, static_cast<int>(nNodes - 1));
     std::uniform_int_distribution<> d_weights(1, MAX_WEIGHT);

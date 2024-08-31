@@ -18,7 +18,7 @@ void test()
 void testManual7x7()
 {
 	std::vector<std::vector<unsigned int>> adjacency_matrix = {
-		//   0  1  2  3  4  5  6  7   Правило: ->^
+		//   0  1  2  3  4  5  6  7   Rule: ->^
 			{0, 5, 9, 2, 0, 0, 0, 0}, // 0
 			{0, 0, 3, 0, 4, 0, 0, 0}, // 1
 			{9, 0, 0, 0, 0, 0, 0, 0}, // 2
